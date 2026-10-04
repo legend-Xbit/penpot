@@ -297,12 +297,9 @@ pub fn replace_text_with_newlines(
 
     let mut current_cursor = *cursor;
 
-    if let Some(new_offset) = replace_text_at_cursor(text_content, &current_cursor, lines[0]) {
-        current_cursor =
-            TextPositionWithAffinity::new_downstream_affinity(current_cursor.paragraph, new_offset);
-    } else {
-        return None;
-    }
+    let new_offset = replace_text_at_cursor(text_content, &current_cursor, lines[0])?;
+    current_cursor =
+        TextPositionWithAffinity::new_downstream_affinity(current_cursor.paragraph, new_offset);
 
     for line in lines.iter().skip(1) {
         if !split_paragraph_at_cursor(text_content, &current_cursor) {
@@ -336,12 +333,9 @@ pub fn insert_text_with_newlines(
 
     let mut current_cursor = *cursor;
 
-    if let Some(new_offset) = insert_text_at_cursor(text_content, &current_cursor, lines[0]) {
-        current_cursor =
-            TextPositionWithAffinity::new_downstream_affinity(current_cursor.paragraph, new_offset);
-    } else {
-        return None;
-    }
+    let new_offset = insert_text_at_cursor(text_content, &current_cursor, lines[0])?;
+    current_cursor =
+        TextPositionWithAffinity::new_downstream_affinity(current_cursor.paragraph, new_offset);
 
     for line in lines.iter().skip(1) {
         if !split_paragraph_at_cursor(text_content, &current_cursor) {
